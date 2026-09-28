@@ -70,16 +70,26 @@ filterBtns.forEach(btn => {
 // so the gallery scales to 20, 50+ certificates without further edits.
 // ===========================================================
 const certificates = [
-  { title: 'ISC2 — Domain 1', category: 'ISC2', meta: 'ISC2', image: 'assets/certificates/isc2-domain-1.png' },
-  { title: 'ISC2 — Access Control Concepts (Domain 3)', category: 'ISC2', meta: 'ISC2', image: 'assets/certificates/isc2-access-control-domain-3.png' },
-  { title: 'ISC2 — Network Security', category: 'ISC2', meta: 'ISC2', image: 'assets/certificates/isc2-network-security.png' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 1 of 7', image: 'assets/certificates/eshe-certificate-01.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 2 of 7', image: 'assets/certificates/eshe-certificate-02.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 3 of 7', image: 'assets/certificates/eshe-certificate-03.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 4 of 7', image: 'assets/certificates/eshe-certificate-04.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 5 of 7', image: 'assets/certificates/eshe-certificate-05.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 6 of 7', image: 'assets/certificates/eshe-certificate-06.jpg' },
-  { title: '[ADD eSHE COURSE NAME]', category: 'eSHE', meta: 'eSHE — Certificate 7 of 7', image: 'assets/certificates/eshe-certificate-07.jpg' },
+  { title: 'ISC2 — Domain 1', category: 'ISC2', image: 'assets/certificates/isc2-domain-1.png',
+    details: [['Certificate', 'CC Course Pre-assessment'], ['Issuer', 'ISC2'], ['Date', '20 April 2026'], ['Learner ID', '1b359c41-c473-4ab9-abb5-a52d534e25ad']] },
+  { title: 'ISC2 — Access Control Concepts (Domain 3)', category: 'ISC2', image: 'assets/certificates/isc2-access-control-domain-3.png',
+    details: [['Certificate', 'CC Domain 3: Access Control Concepts'], ['Issuer', 'ISC2'], ['Date', '26 April 2026'], ['Learner ID', '1b359c41-c473-4ab9-abb5-a52d534e25ad']] },
+  { title: 'ISC2 — Network Security', category: 'ISC2', image: 'assets/certificates/isc2-network-security.png',
+    details: [['Certificate', 'CC Domain 4: Network Security'], ['Issuer', 'ISC2'], ['Date', '26 April 2026'], ['Learner ID', '1b359c41-c473-4ab9-abb5-a52d534e25ad']] },
+  { title: 'e-SHE: CE105\'s SS 3 Academic Integrity', category: 'eSHE', image: 'assets/certificates/eshe-certificate-01.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', 'be3389abb9b84a97a5969515f8027614']] },
+  { title: 'e-SHE: CE101\'s SS 6 How to Study Effectively', category: 'eSHE', image: 'assets/certificates/eshe-certificate-02.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', '87f5c91021804d9b8ad84a94c3512f7e']] },
+  { title: 'e-SHE: OEX100\'s SS1 How to Take a Course', category: 'eSHE', image: 'assets/certificates/eshe-certificate-03.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', '6ae8dcebebce411797a6af35fc8a775f']] },
+  { title: 'e-SHE: CE106\'s Keeping Yourself Safe Online', category: 'eSHE', image: 'assets/certificates/eshe-certificate-04.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', '0150250ff0324de78b884941d50d885e']] },
+  { title: 'e-SHE: DS201\'s Strategies for Successful Online Learning', category: 'eSHE', image: 'assets/certificates/eshe-certificate-05.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', 'f1863bbf657a43c1884f593bf490ac14']] },
+  { title: 'e-SHE: CE104\'s Set Goals to Manage Your Time', category: 'eSHE', image: 'assets/certificates/eshe-certificate-06.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', '6832c83920f74618a380605223b098df']] },
+  { title: 'e-SHE: CE102\'s SS 5 How to Evaluate Resources', category: 'eSHE', image: 'assets/certificates/eshe-certificate-07.jpg',
+    details: [['Issuer', 'Ministry of Education (e-SHE)'], ['Issued', 'January 25, 2025'], ['Certificate ID', 'ad681149ce0f4bf8a81d4bec4340a4a1']] },
   { title: 'Mobile Phone Service and Repair', category: 'TVET', meta: 'TVET / Hello Institute of Technology', image: 'assets/certificates/mobile-phone-service-and-repair.png' },
 ];
 
@@ -151,7 +161,17 @@ function renderCertificates() {
 
     const meta = document.createElement('p');
     meta.className = 'cert-meta';
-    meta.textContent = cert.meta || cert.category;
+    if (Array.isArray(cert.details)) {
+      // Details are transcribed from the certificate image itself.
+      cert.details.forEach(([label, value]) => {
+        const line = document.createElement('span');
+        if (/ID$/.test(label)) line.className = 'cert-id';
+        line.textContent = `${label}: ${value}`;
+        meta.appendChild(line);
+      });
+    } else {
+      meta.textContent = cert.meta || cert.category;
+    }
 
     card.appendChild(imgWrap);
     card.appendChild(badge);
@@ -214,6 +234,11 @@ document.querySelectorAll('.diagram-placeholder img.lightbox-img').forEach(img =
   img.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
   });
+});
+
+// Buttons that open an existing diagram in the lightbox.
+document.querySelectorAll('[data-lightbox-open]').forEach(btn => {
+  btn.addEventListener('click', () => openLightbox(btn.dataset.lightboxSrc, btn.dataset.lightboxTitle));
 });
 
 // Contact form — no backend wired up yet

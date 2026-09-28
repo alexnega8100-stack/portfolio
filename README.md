@@ -43,24 +43,16 @@ remain where a real asset exists.
 
 ## What still needs real content
 
-A few pieces of information were never provided and are intentionally left
-as visible bracketed placeholders rather than invented:
+Only information that was never provided remains marked "Coming Soon":
 
-- `[ADD EMAIL]`, `[ADD PHONE]`, `[ADD LINKEDIN]` — contact section
-- `[ADD YEAR]` — expected graduation year
-- `[ADD CERTIFICATE DATE]`, `[ADD CERTIFICATE ID]` — on the 3 ISC2 cards in
-  the Cybersecurity Training section (their images and titles are already
-  connected)
-- `[ADD eSHE COURSE NAME]` × 7 — the seven eSHE certificate titles (their
-  images are already connected; only the course names are unknown)
-- `[ADD VERIFIED PROJECT DETAILS]` — environment / objective / tools / key
-  learning text on the Enterprise, Hotel, and Other network design cards
-  (their diagrams are already connected)
-- `[ADD TECHNOLOGIES]` / `[ADD GITHUB / DEMO LINK]` — Campus Helper app
-  (no screenshot or repo exists yet, so it shows "App Screenshots Coming
-  Soon" instead of a broken image)
-- The Distributed To-Do List project shows "Project Screenshot Coming Soon"
-  since no screenshot asset exists — its real GitHub link is connected
+- Campus Helper / Reminder Application — technologies and GitHub / demo link
+  (no screenshot or repo has been supplied yet)
+- The Distributed To-Do List and Campus Helper projects show
+  "Screenshot Coming Soon" since no screenshot asset exists
+
+No verification URLs have been provided for any certificate, so no
+"Verification Link" buttons are shown. Add one to a certificate only once a
+real URL exists.
 
 ## The certificate gallery is data-driven and future-proof
 

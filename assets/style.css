@@ -44,11 +44,12 @@ body {
   font-family: var(--font);
   font-weight: var(--fw-body);
   line-height: 1.6;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" 1, "kern" 1;
 }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
 h1, h2, h3 {
   font-family: var(--font); margin: 0; color: var(--text);
@@ -162,14 +163,20 @@ ul { list-style: none; margin: 0; padding: 0; }
 .hero-photo-frame {
   position: absolute; z-index: 2; width: 130px; height: 130px; border-radius: 50%;
   border: 2px solid var(--accent); overflow: hidden; background: var(--surface);
-  top: 8%; left: 4%;
+  top: 8%; left: 4%; flex-shrink: 0; aspect-ratio: 1 / 1;
 }
 .hero-photo-placeholder {
-  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; display: block; padding: 0;
   text-align: center; font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: 0.7rem; color: var(--text-muted);
-  padding: 8px;
 }
-.hero-photo-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+/* The <img> sits inside a <span>; make the span fill the circle so the photo does too. */
+.hero-photo-placeholder > span { display: block; width: 100%; height: 100%; }
+/* object-fit: cover fills the circle by cropping (never stretching). The source file has a
+   thin black strip along its top edge, so the focal point is nudged down slightly to keep it out of view. */
+.hero-photo-placeholder img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 6%; border-radius: 50%;
+}
 .hero-topology { width: 100%; max-width: 420px; height: auto; }
 .topo-pulse { animation: pulse-fade 3.6s ease-in-out infinite; }
 @keyframes pulse-fade {
@@ -477,3 +484,71 @@ button.cert-card:hover { border-color: var(--signal); }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+
+/* ===========================================================
+   Content additions: project detail labels, certificate meta,
+   contact phones
+   =========================================================== */
+.proj-label {
+  display: block; font-family: var(--font-mono); font-weight: var(--fw-medium);
+  font-size: 0.74rem; color: var(--accent-soft); margin-bottom: 2px;
+}
+.cert-meta span { display: block; }
+.cert-meta .cert-id { font-family: var(--font-mono); font-size: 0.74rem; word-break: break-all; }
+.contact-list li > *:last-child { min-width: 0; text-align: right; overflow-wrap: anywhere; }
+.contact-phones { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.contact-list a { display: inline-block; padding: 2px 0; }
+
+/* Show full network diagrams (no cropping); internship gallery keeps its fixed height */
+.case-diagram .diagram-placeholder img,
+.diagram-placeholder.small img { height: auto; object-fit: contain; }
+.case-diagram .diagram-placeholder { min-height: 0; }
+.diagram-placeholder.small { min-height: 0; }
+.diagram-placeholder.small:not(:has(img)) { min-height: 140px; }
+.handson-photo .diagram-placeholder img { height: 100%; object-fit: cover; }
+
+/* ===========================================================
+   Responsive refinements
+   =========================================================== */
+@media (max-width: 1000px) {
+  .net-project-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .net-project-grid { grid-template-columns: 1fr; }
+  .nav-menu { overflow-y: auto; }
+  .section-inner { padding: 60px 20px; }
+  .section-head { margin-bottom: 28px; }
+  .hero { padding: 40px 20px 28px; }
+  .snapshot { padding: 0 20px 56px; }
+  .case-study { padding: 20px; }
+  .case-actions { flex-wrap: wrap; }
+  .edu-card { padding: 20px; }
+  .handson-photo .diagram-placeholder { height: 200px; }
+}
+@media (max-width: 560px) {
+  .btn { min-height: 44px; justify-content: center; }
+  .btn-ghost { padding-left: 12px; padding-right: 12px; }
+  .filter-btn, .cert-filter-btn { min-height: 40px; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .contact-list li { flex-direction: column; gap: 4px; }
+  .contact-list li > *:last-child { text-align: left; }
+  .contact-phones { align-items: flex-start; }
+  .contact-list a { padding: 8px 0; }
+  .contact-form button { justify-self: stretch; }
+  .lightbox { padding: 12px; }
+  .lightbox-inner { padding: 16px; }
+  .journey-flow li { font-size: 0.74rem; padding: 6px 10px; }
+}
+@media (max-width: 400px) {
+  .section-inner { padding: 52px 16px; }
+  .hero, .snapshot { padding-left: 16px; padding-right: 16px; }
+  .nav-wrap { padding: 14px 16px; }
+  .nav-menu { padding: 12px 16px; }
+  .snapshot-grid { gap: 10px; }
+  .handson-photo .diagram-placeholder { height: 190px; }
+}
+
+/* Non-clickable status (e.g. links not yet available) */
+.btn-disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+.case-study { scroll-margin-top: 90px; }
